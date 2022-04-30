@@ -26,7 +26,6 @@ import java.security.Key;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-// import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.function.Function;
 
@@ -82,10 +81,8 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
 
         return loadKey(in, bytes -> {
-            // PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(bytes);
             try {
-                X509EncodedKeySpec spec
-                        = new X509EncodedKeySpec(bytes);
+                X509EncodedKeySpec spec = new X509EncodedKeySpec(bytes);
                 return keyFactory.generatePublic(spec);
             } catch (InvalidKeySpecException e) {
                 throw new RuntimeException(e);
