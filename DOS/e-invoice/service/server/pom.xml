@@ -43,6 +43,11 @@
         </dependency>
         <dependency>
             <groupId>com.immortalcrab</groupId>
+            <artifactId>opaque</artifactId>
+            <version>DANCE_WITH_WOLVES</version>
+        </dependency>
+        <dependency>
+            <groupId>com.immortalcrab</groupId>
             <artifactId>cfdi-utils</artifactId>
             <version>LOLA-TRAILERA</version>
         </dependency>
