@@ -72,7 +72,7 @@
                         <xjbSource>src/main/resources/global.xjb</xjbSource>
                     </xjbSources>
                     <sources>
-                        <source>src/main/resources/xsd/v40/cfdv40.xsd</source>
+                        <source>${project.basedir}/src/main/resources/xsd/v40/cfdv40.xsd</source>
                     </sources>
                     <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
                     <packageName>com.immortalcrab.fantastic4</packageName>
