@@ -13,7 +13,10 @@
     <version>DANCE_WITH_WOLVES</version>
     <name>web-server</name>
     <description>HTTP-API to issue a few CFDI types</description>
-
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
