@@ -11,6 +11,7 @@
         <module>fantastic4</module>
         <module>cfdi-utils</module>
         <module>server</module>
+        <module>opaque</module>
     </modules>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
