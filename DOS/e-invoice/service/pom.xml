@@ -12,6 +12,7 @@
         <module>cfdi-utils</module>
         <module>server</module>
         <module>opaque</module>
+        <module>formats</module>
     </modules>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
