@@ -1,11 +1,13 @@
 package com.immortalcrab.formats;
 
+import com.immortalcrab.opaque.engine.CfdiRequest;
+import com.immortalcrab.opaque.engine.Storage;
 import mx.gob.sat.sitio_internet.cfd.catalogos.CMoneda;
 import mx.gob.sat.sitio_internet.cfd.catalogos.CPais;
 import mx.gob.sat.sitio_internet.cfd.catalogos.CTipoDeComprobante;
 import mx.gob.sat.cfd._4.ObjectFactory;
 import mx.gob.sat.cfd._4.Comprobante;
-
+import java.nio.charset.StandardCharsets;
 import java.io.StringWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -15,8 +17,43 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.datatype.DatatypeConfigurationException;
 import java.io.IOException;
 import com.immortalcrab.opaque.error.FormatError;
+import com.immortalcrab.opaque.error.StorageError;
+import java.io.ByteArrayInputStream;
+import java.util.HashMap;
 
-public class FacturaXml {
+public class NominaXml {
+
+    private final CfdiRequest cfdiReq;
+    private final Storage st;
+
+    private NominaXml(CfdiRequest cfdiReq, Storage st) {
+
+        this.cfdiReq = cfdiReq;
+        this.st = st;
+    }
+
+    public static String render(CfdiRequest cfdiReq, Storage st) throws FormatError, StorageError {
+
+        NominaXml ic = new NominaXml(cfdiReq, st);
+        StringWriter cfdi = ic.shape();
+        var results = ic.timbrarCfdi(cfdi);
+        ic.save((StringWriter) results.get("cfdiTimbrado"));
+
+        return (String) results.get("uuid");
+    }
+
+    private void save(StringWriter sw) throws FormatError, StorageError {
+
+        StringBuffer buf = sw.getBuffer();
+        byte[] in = buf.toString().getBytes(StandardCharsets.UTF_8);
+        /*var ds = this.cfdiReq.getDs();
+
+        {
+            final String fileName = (String) ds.get("SERIE") + (String) ds.get("FOLIO") + ".xml";
+
+            this.st.upload("text/xml", in.length, fileName, new ByteArrayInputStream(in));
+        }*/
+    }
 
     private StringWriter shape() throws FormatError {
 
@@ -44,7 +81,7 @@ public class FacturaXml {
             cfdi.setReceptor(receptor);
 
             // Conceptos
-            var conceptos = cfdiFactory.createComprobanteConceptos();
+            Comprobante.Conceptos conceptos = cfdiFactory.createComprobanteConceptos();
 
             cfdi.setConceptos(conceptos);
 
@@ -72,5 +109,11 @@ public class FacturaXml {
         }
 
         return sw;
+    }
+    
+    private HashMap<String, Object> timbrarCfdi(StringWriter cfdiSw) throws FormatError {
+        
+        return null;
+        
     }
 }

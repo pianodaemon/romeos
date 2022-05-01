@@ -18,6 +18,6 @@ import com.immortalcrab.opaque.error.FormatError;
 import com.immortalcrab.opaque.error.StorageError;
 import com.immortalcrab.qrcode.QRCode;
 
-public class FacturaPdf {
+public class NominaPdf {
 
 }
