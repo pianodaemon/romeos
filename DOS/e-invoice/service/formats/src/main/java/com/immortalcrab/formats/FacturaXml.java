@@ -1,11 +1,11 @@
 package com.immortalcrab.formats;
 
-import com.immortalcrab.fantastic4.CMoneda;
-import com.immortalcrab.fantastic4.CPais;
-import com.immortalcrab.fantastic4.CTipoDeComprobante;
-import com.immortalcrab.fantastic4.Comprobante;
-import com.immortalcrab.fantastic4.ObjectFactory;
-import com.immortalcrab.opaque.error.FormatError;
+import mx.gob.sat.sitio_internet.cfd.catalogos.CMoneda;
+import mx.gob.sat.sitio_internet.cfd.catalogos.CPais;
+import mx.gob.sat.sitio_internet.cfd.catalogos.CTipoDeComprobante;
+import mx.gob.sat.cfd._4.ObjectFactory;
+import mx.gob.sat.cfd._4.Comprobante;
+
 import java.io.StringWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -14,6 +14,7 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.datatype.DatatypeConfigurationException;
 import java.io.IOException;
+import com.immortalcrab.opaque.error.FormatError;
 
 public class FacturaXml {
 
@@ -44,8 +45,24 @@ public class FacturaXml {
 
             // Conceptos
             var conceptos = cfdiFactory.createComprobanteConceptos();
-            
+
             cfdi.setConceptos(conceptos);
+
+            String contextPath = "mx.gob.sat.cfd._4";
+            String schemaLocation = "http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd";
+
+            // Hacer el marshalling del cfdi object
+            JAXBContext context = JAXBContext.newInstance(contextPath);
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty("jaxb.schemaLocation", schemaLocation);
+            marshaller.marshal(cfdi, sw);
+
+            // Armar la cadena original del comprobante + complemento de carta porte
+            String cfdiXml = sw.toString();
+
+            sw = new StringWriter();
+            marshaller.marshal(cfdi, sw);
+            System.out.println(sw.toString());
 
         } catch (Exception ex) {
             ex.printStackTrace();
