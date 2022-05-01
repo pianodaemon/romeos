@@ -19,6 +19,7 @@ import java.io.IOException;
 import com.immortalcrab.opaque.error.FormatError;
 import com.immortalcrab.opaque.error.StorageError;
 import java.io.ByteArrayInputStream;
+import java.math.BigDecimal;
 import java.util.HashMap;
 
 public class NominaXml {
@@ -83,6 +84,19 @@ public class NominaXml {
             // Conceptos
             Comprobante.Conceptos conceptos = cfdiFactory.createComprobanteConceptos();
 
+            {
+                Comprobante.Conceptos.Concepto concepto = cfdiFactory.createComprobanteConceptosConcepto();
+                //concepto.setClaveProdServ(c.get("DCVESERV"));
+                concepto.setCantidad(new BigDecimal("1.00"));
+                //concepto.setClaveUnidad(c.get("DCUME"));
+                concepto.setUnidad("SERVICIO");
+                concepto.setDescripcion("PAGO DE LA QUINCENA DEL 16/10/2016 AL 31/10/2016");
+                concepto.setValorUnitario(new BigDecimal("7185.8200"));
+                concepto.setImporte(new BigDecimal("7185.8200"));
+                
+                conceptos.getConceptos().add(concepto);
+            }
+
             cfdi.setConceptos(conceptos);
 
             String contextPath = "mx.gob.sat.cfd._4";
@@ -92,6 +106,7 @@ public class NominaXml {
             JAXBContext context = JAXBContext.newInstance(contextPath);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty("jaxb.schemaLocation", schemaLocation);
+            marshaller.setProperty("jaxb.formatted.output", true);
             marshaller.marshal(cfdi, sw);
 
             // Armar la cadena original del comprobante + complemento de carta porte
@@ -110,10 +125,10 @@ public class NominaXml {
 
         return sw;
     }
-    
+
     private HashMap<String, Object> timbrarCfdi(StringWriter cfdiSw) throws FormatError {
-        
+
         return null;
-        
+
     }
 }
