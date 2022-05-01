@@ -94,6 +94,29 @@ public class NominaXml {
                 concepto.setValorUnitario(new BigDecimal("7185.8200"));
                 concepto.setImporte(new BigDecimal("7185.8200"));
                 
+                Comprobante.Conceptos.Concepto.Impuestos conceptoImpuestos = cfdiFactory.createComprobanteConceptosConceptoImpuestos();
+
+                // Retenciones
+                {
+                    Comprobante.Conceptos.Concepto.Impuestos.Retenciones retenciones = cfdiFactory.createComprobanteConceptosConceptoImpuestosRetenciones();
+
+                    {
+                        Comprobante.Conceptos.Concepto.Impuestos.Retenciones.Retencion retencion = cfdiFactory.createComprobanteConceptosConceptoImpuestosRetencionesRetencion();
+
+                        //retencion.setBase(new BigDecimal(c.get("DBASE")));
+                        retencion.setImpuesto("ISR");
+                        //retencion.setTipoFactor(CTipoFactor.fromValue(c.get("DIRTF")));
+                        //retencion.setTasaOCuota(new BigDecimal(c.get("DIRTC")));
+                        retencion.setImporte(new BigDecimal("987.62"));
+
+                        retenciones.getRetencions().add(retencion);
+                    }
+
+                    conceptoImpuestos.setRetenciones(retenciones);
+                }
+
+                concepto.setImpuestos(conceptoImpuestos);
+
                 conceptos.getConceptos().add(concepto);
             }
 
