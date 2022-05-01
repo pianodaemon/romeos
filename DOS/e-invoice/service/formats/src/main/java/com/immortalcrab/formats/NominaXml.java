@@ -122,6 +122,23 @@ public class NominaXml {
 
             cfdi.setConceptos(conceptos);
 
+            // Impuestos
+            Comprobante.Impuestos impuestos = cfdiFactory.createComprobanteImpuestos();
+
+            {
+                impuestos.setTotalImpuestosRetenidos(new BigDecimal("987.62"));
+
+                var impuestosRetenciones = cfdiFactory.createComprobanteImpuestosRetenciones();
+                var impuestosRetencionList = impuestosRetenciones.getRetencions();
+                var impuestosRetencion = cfdiFactory.createComprobanteImpuestosRetencionesRetencion();
+                impuestosRetencion.setImpuesto("000");
+                impuestosRetencion.setImporte(new BigDecimal("987.62"));
+                impuestosRetencionList.add(impuestosRetencion);
+                impuestos.setRetenciones(impuestosRetenciones);
+            }
+
+            cfdi.setImpuestos(impuestos);
+
             String contextPath = "mx.gob.sat.cfd._4";
             String schemaLocation = "http://www.sat.gob.mx/cfd/4 http://www.sat.gob.mx/sitio_internet/cfd/4/cfdv40.xsd";
 
