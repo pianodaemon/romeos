@@ -41,6 +41,16 @@ services:
           - "6379:6379"
         networks:
           - operational_network
+    e_invoice:
+        container_name: 'e_invoice'
+        build: './DOS/e-invoice'
+        environment: *operational_envars
+        ports:
+          - '8080:8080'
+        volumes:
+          - ./DOS/keys:/pem
+        networks:
+          - operational_network
 
 networks:
     operational_network:
