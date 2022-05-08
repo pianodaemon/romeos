@@ -73,6 +73,7 @@
                     </xjbSources>
                     <sources>
                         <source>${project.basedir}/src/main/resources/xsd/v40/cfdv40.xsd</source>
+                        <source>${project.basedir}/src/main/resources/xsd/v40/nomina12.xsd</source>
                     </sources>
                     <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
                     <clearOutputDir>false</clearOutputDir>
