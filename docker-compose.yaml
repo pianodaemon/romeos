@@ -1,0 +1,51 @@
+version: '3.6'
+
+x-shared-environment: &operational_envars
+    POSTGRES_USER: "postgres"
+    POSTGRES_PASSWORD: "postgres"
+    POSTGRES_HOST: "rdbms"
+    POSTGRES_PORT: 5432
+    POSTGRES_DB: "operational"
+    REDIS_HOST: "cache_redis"
+    REDIS_PORT: 6379
+    VAULT_ADDR: "http://dist_cache:8200"
+          
+services:
+    security_manager:
+        container_name: 'security_manager'
+        image: vault:1.10.2
+        ports:
+          - '8200:8200'
+        networks:
+          - operational_network
+        cap_add:
+          - IPC_LOCK
+        environment:
+          <<: *operational_envars
+          VAULT_TOKEN: "narf_token"
+          VAULT_DEV_ROOT_TOKEN_ID: "narf_token"
+    rdbms:
+        container_name: 'rdbms'
+        image: 'debezium/postgres:13-alpine'
+        ports:
+          - '5432:5432'
+        networks:
+          - operational_network
+        volumes:
+          - rdbms_pg_data:/var/lib/postgresql/data
+        environment: *operational_envars
+    dist_cache:
+        container_name: 'dist_cache'
+        image: redis:alpine
+        ports:
+          - "6379:6379"
+        networks:
+          - operational_network
+
+networks:
+    operational_network:
+        name: operational_network
+        driver: bridge
+
+volumes:
+    rdbms_pg_data:
